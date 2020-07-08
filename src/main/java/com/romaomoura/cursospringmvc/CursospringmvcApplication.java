@@ -1,5 +1,6 @@
 package com.romaomoura.cursospringmvc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +11,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.romaomoura.cursospringmvc.domain.Categoria;
 import com.romaomoura.cursospringmvc.domain.Cliente;
 import com.romaomoura.cursospringmvc.domain.Endereco;
+import com.romaomoura.cursospringmvc.domain.Pedido;
 import com.romaomoura.cursospringmvc.domain.Produto;
+import com.romaomoura.cursospringmvc.domain.enums.EstadoPagamento;
 import com.romaomoura.cursospringmvc.domain.enums.TipoCliente;
 import com.romaomoura.cursospringmvc.domain.locale.Cidade;
 import com.romaomoura.cursospringmvc.domain.locale.Estado;
+import com.romaomoura.cursospringmvc.domain.pagamento.Pagamento;
+import com.romaomoura.cursospringmvc.domain.pagamento.PagamentoComBoleto;
+import com.romaomoura.cursospringmvc.domain.pagamento.PagamentoComCartao;
 import com.romaomoura.cursospringmvc.repositories.CategoriaRepository;
 import com.romaomoura.cursospringmvc.repositories.CidadeRepository;
 import com.romaomoura.cursospringmvc.repositories.ClienteRepository;
 import com.romaomoura.cursospringmvc.repositories.EnderecoRepository;
 import com.romaomoura.cursospringmvc.repositories.EstadoRepository;
+import com.romaomoura.cursospringmvc.repositories.PagamentoRepository;
+import com.romaomoura.cursospringmvc.repositories.PedidoRepository;
 import com.romaomoura.cursospringmvc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -41,6 +49,12 @@ public class CursospringmvcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursospringmvcApplication.class, args);
@@ -90,6 +104,22 @@ public class CursospringmvcApplication implements CommandLineRunner {
 		
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, end1);
+		Pedido ped2 = new Pedido(null, sdf.parse("30/11/2018 14:32"), cli1, end2);
+		
+		Pagamento pgto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pgto1);
+		
+		Pagamento pgto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pgto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pgto1, pgto2));
 	}
 
 }
