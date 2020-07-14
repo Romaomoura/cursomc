@@ -66,8 +66,9 @@ public class CategoriaResource {
 
 	// Paginação para listar categorias
 	@GetMapping("/page")
-	public ResponseEntity<Page<CategoriaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
-			@RequestParam(value = "linesPerpage", defaultValue = "24") Integer linesPerPage,
+	public ResponseEntity<Page<CategoriaDTO>> findPage(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "ordeBy", defaultValue = "nome") String ordeBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Categoria> categorias = catServ.findPage(page, linesPerPage, ordeBy, direction);
