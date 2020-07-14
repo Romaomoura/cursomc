@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.romaomoura.cursospringmvc.domain.Categoria;
+import com.romaomoura.cursospringmvc.dto.CategoriaDTO;
 import com.romaomoura.cursospringmvc.exceptions.DataIntegratyException;
 import com.romaomoura.cursospringmvc.exceptions.ObjectNotFoundException;
 import com.romaomoura.cursospringmvc.repositories.CategoriaRepository;
@@ -49,9 +50,14 @@ public class CategoriaService {
 	public List<Categoria> findAll() {
 		return repCategoria.findAll();
 	}
-	
-	public Page<Categoria> findPage(Integer page, Integer linesPerPage,  String ordeBy, String direction){
+
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String ordeBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), ordeBy);
 		return repCategoria.findAll(pageRequest);
 	}
+
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
+
 }
