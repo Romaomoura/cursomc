@@ -3,6 +3,7 @@ package com.romaomoura.cursospringmvc.dto;
 import java.io.Serializable;
 
 import com.romaomoura.cursospringmvc.domain.Categoria;
+//import javax.validation.constraints.NotEmpty;
 
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
