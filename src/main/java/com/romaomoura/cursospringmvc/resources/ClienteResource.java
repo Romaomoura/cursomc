@@ -1,5 +1,6 @@
 package com.romaomoura.cursospringmvc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,21 +12,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.romaomoura.cursospringmvc.domain.Cliente;
 import com.romaomoura.cursospringmvc.dto.ClienteDTO;
+import com.romaomoura.cursospringmvc.dto.ClienteNewDTO;
 import com.romaomoura.cursospringmvc.services.ClienteService;
 
 @RestController
 @RequestMapping(value = "/clientes")
 public class ClienteResource {
-	
+
 	@Autowired
 	private ClienteService cliServ;
 
@@ -34,13 +38,15 @@ public class ClienteResource {
 		Cliente obj = cliServ.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-//	@PostMapping()
-//	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto) {
-//		Cliente obj = cliServ.fromDTO(objDto);
-//		obj = cliServ.insert(obj);
-//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-//		return ResponseEntity.created(uri).build();
-//	}
+
+	@PostMapping()
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+		Cliente obj = cliServ.fromDTO(objDto);
+		System.out.println("O OBJETO>>>>>>>>>>> " + obj);
+		obj = cliServ.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Valid @PathVariable Integer id, @RequestBody ClienteDTO objDto) {
@@ -65,10 +71,9 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(categoriasDTO);
 	}
 
-	// Paginação para listar 
+	// Paginação para listar
 	@GetMapping("/page")
-	public ResponseEntity<Page<ClienteDTO>> findPage(
-			@RequestParam(value = "page", defaultValue = "0") Integer page,
+	public ResponseEntity<Page<ClienteDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "ordeBy", defaultValue = "nome") String ordeBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
