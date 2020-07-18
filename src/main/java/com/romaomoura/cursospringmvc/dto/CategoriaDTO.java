@@ -2,11 +2,9 @@ package com.romaomoura.cursospringmvc.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
-import org.springframework.lang.NonNull;
+import org.hibernate.validator.constraints.Length;
 
 import com.romaomoura.cursospringmvc.domain.Categoria;
 
@@ -16,9 +14,7 @@ public class CategoriaDTO implements Serializable {
 	private Integer id;
 	
 	@NotEmpty(message = "Preenchimento obrigatório! ")
-	@NotBlank(message = "O campo não pode ser em branco!")
-	@Size(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
-	@NonNull
+	@Length(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
 	private String nome;
 
 	public CategoriaDTO() {

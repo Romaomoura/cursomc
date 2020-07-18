@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.romaomoura.cursospringmvc.domain.Cliente;
 
@@ -14,7 +15,7 @@ public class ClienteDTO implements Serializable {
 	private Integer id;
 	
 	@NotEmpty(message = "Preenchimento obrigatório!")
-	@Size(min = 5, max = 120, message = "O tamanho do nome deve ter entre 5 e 120 caracteres")
+	@Length(min = 5, max = 120, message = "O tamanho do nome deve ter entre 5 e 120 caracteres")
 	private String nome;
 	
 	@NotEmpty(message = "Preenchimento obrigatório!")
