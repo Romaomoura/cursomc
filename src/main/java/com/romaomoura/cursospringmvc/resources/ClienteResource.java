@@ -42,14 +42,13 @@ public class ClienteResource {
 	@PostMapping()
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
 		Cliente obj = cliServ.fromDTO(objDto);
-		System.out.println("O OBJETO>>>>>>>>>>> " + obj);
 		obj = cliServ.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@Valid @PathVariable Integer id, @RequestBody ClienteDTO objDto) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
 		Cliente obj = cliServ.fromDTO(objDto);
 		obj.setId(id);
 		obj = cliServ.update(obj);
