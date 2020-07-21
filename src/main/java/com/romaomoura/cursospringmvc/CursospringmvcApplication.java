@@ -78,16 +78,40 @@ public class CursospringmvcApplication implements CommandLineRunner {
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 800.00);
 		Produto p3 = new Produto(null, "Mouse", 80.00);
-
-		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
-		cat2.getProdutos().addAll(Arrays.asList(p2));
+		Produto p4 = new Produto(null, "Mesa de escritório", 80.00);
+		Produto p5 = new Produto(null, "Toalha", 80.00);
+		Produto p6 = new Produto(null, "Colcha de cama", 80.00);
+		Produto p7 = new Produto(null, "Conjunto de Panelas Inox", 80.00);
+		Produto p8 = new Produto(null, "Smart Tv", 80.00);
+		Produto p9 = new Produto(null, "Home Teacher", 80.00);
+		Produto p10 = new Produto(null, "Notebook", 80.00);
+		Produto p11 = new Produto(null, "Geladeira", 80.00);
+		Produto p12 = new Produto(null, "Abajour", 80.00);
+		
+		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3, p10));
+		cat2.getProdutos().addAll(Arrays.asList(p2, p4));
+		cat3.getProdutos().addAll(Arrays.asList(p5, p6));
+		cat4.getProdutos().addAll(Arrays.asList(p8, p9));
+		cat5.getProdutos().addAll(Arrays.asList(p12));
+		cat6.getProdutos().addAll(Arrays.asList(p7, p11));
 
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
+		p3.getCategorias().addAll(Arrays.asList(cat3));
+		p4.getCategorias().addAll(Arrays.asList(cat2));
+		p5.getCategorias().addAll(Arrays.asList(cat3));
+		p6.getCategorias().addAll(Arrays.asList(cat3));
+		p7.getCategorias().addAll(Arrays.asList(cat6));
+		p8.getCategorias().addAll(Arrays.asList(cat4));
+		p9.getCategorias().addAll(Arrays.asList(cat4));
+		p10.getCategorias().addAll(Arrays.asList(cat1));
+		p11.getCategorias().addAll(Arrays.asList(cat6));
+		p12.getCategorias().addAll(Arrays.asList(cat5));
+		
 
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3 , cat4, cat5, cat6));
-		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12));
 
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
