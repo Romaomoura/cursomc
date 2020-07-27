@@ -27,7 +27,7 @@ public abstract class AbstractEmailService implements EmailService {
 	private JavaMailSender javaSender;
 
 	@Override
-	public void sendOrderConfirmarionEmail(Pedido obj) {
+	public void sendOrderConfirmationEmail(Pedido obj) {
 		SimpleMailMessage sm = prepareSimpleMailMessageFromPedido(obj);
 		sendEmail(sm);
 	}
@@ -55,7 +55,7 @@ public abstract class AbstractEmailService implements EmailService {
 			mm = prepareMimeMessageFromPedido(obj);
 			sendHtmlEmail(mm);
 		} catch (MessagingException e) {
-			sendOrderConfirmarionEmail(obj);
+			sendOrderConfirmationEmail(obj);
 		}
 
 	}

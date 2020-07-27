@@ -8,7 +8,7 @@ import com.romaomoura.cursospringmvc.domain.Pedido;
 
 public interface EmailService {
 
-	void sendOrderConfirmarionEmail(Pedido obj);
+	void sendOrderConfirmationEmail(Pedido obj);
 
 	void sendEmail(SimpleMailMessage msg);//email com formatação simples
 
