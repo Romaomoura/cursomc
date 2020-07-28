@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.romaomoura.cursospringmvc.domain.enums.Perfil;
 import com.romaomoura.cursospringmvc.domain.enums.TipoCliente;
 
 @Entity
@@ -39,6 +42,10 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	private String senha;
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 
@@ -51,6 +58,7 @@ public class Cliente implements Serializable {
 	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Cliente() {
+		addPerfil(Perfil.CLIENTE); //usuário será adicionado no sistema com o perfil padrão CLIENTE
 	}
 
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente, String senha) {
@@ -61,6 +69,8 @@ public class Cliente implements Serializable {
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCod();
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);
+
 	}
 
 	public Integer getId() {
@@ -121,6 +131,16 @@ public class Cliente implements Serializable {
 
 	public Set<String> getTelefones() {
 		return telefones;
+	}
+
+	// retornando os perfis de usuários
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	// adicionando perfil de usuários
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
 	}
 
 	public void setTelefones(Set<String> telefones) {

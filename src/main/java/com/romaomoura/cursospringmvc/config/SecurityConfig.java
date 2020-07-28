@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
 
-	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**" };
+	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/clientes/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
-	@Bean // configurando acesso básico por multiplas fontes.
+	@Bean // configuração de acesso básico por multiplas fontes.
 	CorsConfigurationSource corsConfigSoucers() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());

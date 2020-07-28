@@ -15,6 +15,7 @@ import com.romaomoura.cursospringmvc.domain.ItemPedido;
 import com.romaomoura.cursospringmvc.domain.Pedido;
 import com.romaomoura.cursospringmvc.domain.Produto;
 import com.romaomoura.cursospringmvc.domain.enums.EstadoPagamento;
+import com.romaomoura.cursospringmvc.domain.enums.Perfil;
 import com.romaomoura.cursospringmvc.domain.enums.TipoCliente;
 import com.romaomoura.cursospringmvc.domain.locale.Cidade;
 import com.romaomoura.cursospringmvc.domain.locale.Estado;
@@ -128,14 +129,24 @@ public class DBService {
 				TipoCliente.PESSOAJURIDICA, passEncoder.encode("1234"));
 		cli1.getTelefones().addAll(Arrays.asList("(88) 965324852", "(88) 965328974"));
 
+		Cliente cli2 = new Cliente(null, "Romão Moura silva", "c.r.moura@hotmail.com", "088.658.123-65",
+				TipoCliente.PESSOAFISICA, passEncoder.encode("1234"));
+		cli2.getTelefones().addAll(Arrays.asList("(88) 965324858", "(88) 965328912"));
+		cli2.addPerfil(Perfil.ADMIN);
+
 		Endereco end1 = new Endereco(null, "Rua Todos os santos", "1112", "Apartamento", "Pirajá", "63.066-222", cli1,
 				c1);
 		Endereco end2 = new Endereco(null, "Rua Tiradentes", "055", "Casa", "Santista", "64.096-222", cli1, c2);
+		
+		Endereco end3 = new Endereco(null, "Rua da orquidias", "112", "Condominio", "Campo Alegre", "63.060-000", cli2,
+				c3);
 
 		cli1.getEnderecos().addAll(Arrays.asList(end1, end2));
 
-		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+		cli2.getEnderecos().addAll(Arrays.asList(end3));
+
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2, end3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy HH:mm");
 

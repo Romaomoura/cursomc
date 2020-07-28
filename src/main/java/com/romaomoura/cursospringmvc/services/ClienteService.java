@@ -35,8 +35,8 @@ public class ClienteService {
 	@Autowired
 	private EnderecoRepository endRepository;
 
-//	@Autowired
-//	private CidadeRepository cidadeRepository;
+	// @Autowired
+	// private CidadeRepository cidadeRepository;
 
 	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repCliente.findById(id);
@@ -49,8 +49,6 @@ public class ClienteService {
 		obj.setId(null);
 		obj = repCliente.save(obj);
 		endRepository.saveAll(obj.getEnderecos());
-		System.out.println("AQUI ESTÀ >>>>>>>" + obj);
-
 		return obj;
 	}
 
@@ -86,7 +84,6 @@ public class ClienteService {
 		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(),
 				TipoCliente.toEnum(objDto.getTipoCliente()), passEncoder.encode(objDto.getSenha()));
 		Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
-//		Cidade cid = cidadeRepository.getOne(objDto.getCidadeId());
 		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(),
 				objDto.getBairro(), objDto.getCep(), cli, cid);
 		cli.getEnderecos().add(end);
