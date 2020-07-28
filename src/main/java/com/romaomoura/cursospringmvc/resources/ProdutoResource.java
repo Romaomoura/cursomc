@@ -19,7 +19,7 @@ import com.romaomoura.cursospringmvc.services.ProdutoService;
 @RestController
 @RequestMapping(value = "/produtos")
 public class ProdutoResource {
-	
+
 	@Autowired
 	private ProdutoService produtoServ;
 
@@ -28,20 +28,19 @@ public class ProdutoResource {
 		Produto obj = produtoServ.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	// Paginação para listar produtos
-		@RequestMapping(method = RequestMethod.GET)
-		public ResponseEntity<Page<ProdutoDTO>> findPage(
-				@RequestParam(value = "nome", defaultValue ="") String nome,
-				@RequestParam(value = "categorias", defaultValue ="") String categorias,
-				@RequestParam(value = "page", defaultValue = "0") Integer page,
-				@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-				@RequestParam(value = "ordeBy", defaultValue = "nome") String ordeBy,
-				@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-			String nomeDecode = Url.decodeParam(nome);
-			List<Integer> ids = Url.decodeIntList(categorias);
-			Page<Produto> produtos = produtoServ.search(nomeDecode, ids, page, linesPerPage, ordeBy, direction);
-			Page<ProdutoDTO> produtosDTO = produtos.map(obj -> new ProdutoDTO(obj));
-			return ResponseEntity.ok().body(produtosDTO);
-		}
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<Page<ProdutoDTO>> findPage(@RequestParam(value = "nome", defaultValue = "") String nome,
+			@RequestParam(value = "categorias", defaultValue = "") String categorias,
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "ordeBy", defaultValue = "nome") String ordeBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		String nomeDecode = Url.decodeParam(nome);
+		List<Integer> ids = Url.decodeIntList(categorias);
+		Page<Produto> produtos = produtoServ.search(nomeDecode, ids, page, linesPerPage, ordeBy, direction);
+		Page<ProdutoDTO> produtosDTO = produtos.map(obj -> new ProdutoDTO(obj));
+		return ResponseEntity.ok().body(produtosDTO);
+	}
 }
