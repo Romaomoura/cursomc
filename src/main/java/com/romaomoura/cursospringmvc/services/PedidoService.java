@@ -11,7 +11,7 @@ import com.romaomoura.cursospringmvc.domain.ItemPedido;
 import com.romaomoura.cursospringmvc.domain.Pedido;
 import com.romaomoura.cursospringmvc.domain.enums.EstadoPagamento;
 import com.romaomoura.cursospringmvc.domain.pagamento.PagamentoComBoleto;
-import com.romaomoura.cursospringmvc.exceptions.ObjectNotFoundException;
+import com.romaomoura.cursospringmvc.services.exceptions.ObjectNotFoundException;
 import com.romaomoura.cursospringmvc.repositories.ItemPedidoRepository;
 import com.romaomoura.cursospringmvc.repositories.PagamentoRepository;
 import com.romaomoura.cursospringmvc.repositories.PedidoRepository;

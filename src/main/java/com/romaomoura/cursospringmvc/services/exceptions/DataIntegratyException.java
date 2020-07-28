@@ -1,4 +1,4 @@
-package com.romaomoura.cursospringmvc.exceptions;
+package com.romaomoura.cursospringmvc.services.exceptions;
 
 public class DataIntegratyException extends RuntimeException {
 

@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.romaomoura.cursospringmvc.domain.Categoria;
 import com.romaomoura.cursospringmvc.dto.CategoriaDTO;
-import com.romaomoura.cursospringmvc.exceptions.DataIntegratyException;
-import com.romaomoura.cursospringmvc.exceptions.ObjectNotFoundException;
 import com.romaomoura.cursospringmvc.repositories.CategoriaRepository;
+import com.romaomoura.cursospringmvc.services.exceptions.DataIntegratyException;
+import com.romaomoura.cursospringmvc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {

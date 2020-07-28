@@ -14,14 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.romaomoura.cursospringmvc.domain.Cliente;
 import com.romaomoura.cursospringmvc.domain.Endereco;
+import com.romaomoura.cursospringmvc.domain.enums.Perfil;
 import com.romaomoura.cursospringmvc.domain.enums.TipoCliente;
 import com.romaomoura.cursospringmvc.domain.locale.Cidade;
 import com.romaomoura.cursospringmvc.dto.ClienteDTO;
 import com.romaomoura.cursospringmvc.dto.ClienteNewDTO;
-import com.romaomoura.cursospringmvc.exceptions.DataIntegratyException;
-import com.romaomoura.cursospringmvc.exceptions.ObjectNotFoundException;
+import com.romaomoura.cursospringmvc.services.exceptions.AuthorizationException;
+import com.romaomoura.cursospringmvc.services.exceptions.DataIntegratyException;
+import com.romaomoura.cursospringmvc.services.exceptions.ObjectNotFoundException;
 import com.romaomoura.cursospringmvc.repositories.ClienteRepository;
 import com.romaomoura.cursospringmvc.repositories.EnderecoRepository;
+import com.romaomoura.cursospringmvc.security.UserSecurity;
 
 @Service
 public class ClienteService {
@@ -39,6 +42,10 @@ public class ClienteService {
 	// private CidadeRepository cidadeRepository;
 
 	public Cliente find(Integer id) {
+		UserSecurity user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado!");
+		}
 		Optional<Cliente> obj = repCliente.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
