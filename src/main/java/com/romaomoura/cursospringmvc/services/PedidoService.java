@@ -3,18 +3,24 @@ package com.romaomoura.cursospringmvc.services;
 import java.util.Date;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.romaomoura.cursospringmvc.domain.Cliente;
 import com.romaomoura.cursospringmvc.domain.ItemPedido;
 import com.romaomoura.cursospringmvc.domain.Pedido;
 import com.romaomoura.cursospringmvc.domain.enums.EstadoPagamento;
 import com.romaomoura.cursospringmvc.domain.pagamento.PagamentoComBoleto;
-import com.romaomoura.cursospringmvc.services.exceptions.ObjectNotFoundException;
 import com.romaomoura.cursospringmvc.repositories.ItemPedidoRepository;
 import com.romaomoura.cursospringmvc.repositories.PagamentoRepository;
 import com.romaomoura.cursospringmvc.repositories.PedidoRepository;
+import com.romaomoura.cursospringmvc.security.UserSecurity;
+import com.romaomoura.cursospringmvc.services.exceptions.AuthorizationException;
+import com.romaomoura.cursospringmvc.services.exceptions.ObjectNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PedidoService {
@@ -70,5 +76,15 @@ public class PedidoService {
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 
 		return obj;
+	}
+
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String ordeBy, String direction) {
+		UserSecurity user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), ordeBy);
+		Cliente cliente = cliService.find(user.getId());
+		return repPedido.findByCliente(cliente, pageRequest);
 	}
 }
