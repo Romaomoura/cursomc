@@ -51,6 +51,9 @@ public class ClienteService {
 	@Value("${img.prefix.client.profile}")
 	private String prefix;
 
+	@Value("${img.profile.size}")
+	private Integer size;
+
 	public Cliente find(Integer id) {
 		UserSecurity user = UserService.authenticated();
 		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
@@ -125,10 +128,10 @@ public class ClienteService {
 			throw new AuthorizationException("Acesso negado!");
 		}
 		BufferedImage pngImg = imageService.getJpgImageFromFile(multipartFile);
-		/*
-		 * jpgImage = imageService.cropSquare(pngImg); j
-		 * pgImage = imageService.resize(pngImg, size);
-		 */
+		
+		 pngImg = imageService.cropSquare(pngImg); 
+		 pngImg = imageService.resize(pngImg, size);
+		
 
 		String fileName = prefix + user.getId() + ".png";
 
