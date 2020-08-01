@@ -58,7 +58,7 @@ public class Cliente implements Serializable {
 	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Cliente() {
-		addPerfil(Perfil.CLIENTE); //usuário será adicionado no sistema com o perfil padrão CLIENTE
+		addPerfil(Perfil.CLIENTE); // usuário será adicionado no sistema com o perfil padrão CLIENTE
 	}
 
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente, String senha) {
