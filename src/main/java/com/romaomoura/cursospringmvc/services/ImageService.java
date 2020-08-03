@@ -1,5 +1,6 @@
 package com.romaomoura.cursospringmvc.services;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,8 +26,8 @@ public class ImageService {
         try {
 
             BufferedImage img = ImageIO.read(uploadedFile.getInputStream());
-            if ("jpg".equals(ext)) {
-                img = jpgToPng(img);
+            if ("png".equals(ext)) {
+                img = pngToJpg(img);
             }
             return img;
         } catch (IOException e) {
@@ -34,11 +35,11 @@ public class ImageService {
         }
     }
 
-    // metodo para converte imagens jpg em PNG
-    public BufferedImage jpgToPng(BufferedImage img) {
-        BufferedImage pngImg = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
-        pngImg.createGraphics().drawImage(img, 0, 0, null);
-        return pngImg;
+    // metodo para converte imagens PNG em JPG
+    public BufferedImage pngToJpg(BufferedImage img) {
+        BufferedImage jpgImg = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+        jpgImg.createGraphics().drawImage(img, 0, 0, Color.WHITE, null);
+        return jpgImg;
     }
 
     // metodo para obter um inputStrem a partir de um BufferedImage

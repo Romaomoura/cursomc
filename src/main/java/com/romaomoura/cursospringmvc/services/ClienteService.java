@@ -127,14 +127,26 @@ public class ClienteService {
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado!");
 		}
-		BufferedImage pngImg = imageService.getJpgImageFromFile(multipartFile);
-		
-		 pngImg = imageService.cropSquare(pngImg); 
-		 pngImg = imageService.resize(pngImg, size);
-		
+		BufferedImage jpgImg = imageService.getJpgImageFromFile(multipartFile);
 
-		String fileName = prefix + user.getId() + ".png";
+		jpgImg = imageService.cropSquare(jpgImg);
+		jpgImg = imageService.resize(jpgImg, size);
 
-		return s3Service.uploadFile(imageService.getInputStream(pngImg, "png"), fileName, "image");
+		String fileName = prefix + user.getId() + ".jpg";
+
+		return s3Service.uploadFile(imageService.getInputStream(jpgImg, "jpg"), fileName, "image");
+	}
+
+	public Cliente findByEmail(String email) {
+		UserSecurity user = UserService.authenticated();
+		if (user == null || user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		Cliente obj = repCliente.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! id: " + user.getId() + ", Tipo: " + Cliente.class.getName());
+		}
+		return obj;
 	}
 }
