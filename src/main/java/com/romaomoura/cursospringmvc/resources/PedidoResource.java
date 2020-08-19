@@ -33,8 +33,8 @@ public class PedidoResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@PostMapping()
+	/* @PreAuthorize("hasAnyRole('ADMIN')") */
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj) {
 		obj = pedidoServ.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
