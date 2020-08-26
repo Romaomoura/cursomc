@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+
 import com.romaomoura.cursospringmvc.domain.Categoria;
 import com.romaomoura.cursospringmvc.dto.CategoriaDTO;
 import com.romaomoura.cursospringmvc.services.CategoriaService;
@@ -34,6 +37,7 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService catServ;
 
+	@ApiOperation(value = "Busca uma categoria")
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = catServ.find(id);
@@ -41,6 +45,7 @@ public class CategoriaResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value = "Insere uma categoria")
 	@PostMapping()
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
 		Categoria obj = catServ.fromDTO(objDto);
@@ -50,6 +55,7 @@ public class CategoriaResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value = "Atualiza categoria")
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Valid @PathVariable Integer id, @RequestBody CategoriaDTO objDto) {
 		Categoria obj = catServ.fromDTO(objDto);
@@ -59,6 +65,7 @@ public class CategoriaResource {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value = "Deleta categoria") //teste de personalização de metodo para documentação
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		catServ.delete(id);
@@ -66,6 +73,7 @@ public class CategoriaResource {
 	}
 
 	// listando todas as categorias
+	@ApiOperation(value = "Deleta todas as categoria")
 	@GetMapping()
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> categorias = catServ.findAll();
@@ -75,6 +83,7 @@ public class CategoriaResource {
 	}
 
 	// Paginação para listar categorias
+	@ApiOperation(value = "Deleta todas as categoria com paginação")
 	@GetMapping("/page")
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
