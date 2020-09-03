@@ -5,11 +5,11 @@
 # Ferramentas utilizadas no projeto
 - Spring frimework
 - Spring Boot
-- Spring Security
-*Abordagem simples de acessos utilizando os padrões do Spring Security.*
+- Spring Security.
+* Abordagem simples de acessos utilizando os padrões do Spring Security. *
 
-- Spring MVC
-*projeto todo implementado no padrão mvc*
+- Spring MVC.
+* projeto todo implementado no padrão mvc *
 - Thymeleaf
 - Configuração de email com servidor do Google "SMTP"
 - JWT
